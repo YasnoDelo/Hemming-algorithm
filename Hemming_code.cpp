@@ -128,8 +128,6 @@ int cont_bits_counter(int wr_size)
 
     for(; pow(2, co) <= wr_size; co++);
 
-    printf(RED("co = %d\n"), co);
-
     return co;
 }
 
