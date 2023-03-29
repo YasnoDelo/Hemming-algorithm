@@ -16,4 +16,4 @@ The original message (saved from input time) and the decoded message are then ou
 
 Example of output:
 
-![alt text](https://github.com/YasnoDelo/Hemming-algorithm/blob/main/images/ex_1.png)
+![alt text](images/ex_1.png)
