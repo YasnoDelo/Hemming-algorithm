@@ -20,14 +20,14 @@ enum Errors
 #define check(condition, type_error)      				        														                   		     \
     if (!(condition))                                                                                                                                \
     {                                                                                                                                                \
-		printf("\033[91mОшибка в условии %s в строке %d в файле %s в функции %s \n\033[39m", #condition, __LINE__, __FILE__, __PRETTY_FUNCTION__ ); \
+		printf("\033[91mMitake in condition %s in string %d in file %s in function %s \n\033[39m", #condition, __LINE__, __FILE__, __PRETTY_FUNCTION__ ); \
         return type_error;                                                                                                                           \
     }
 
 #define hard_check(condition)           				        														                   		     \
     if (!(condition))                                                                                                                                \
     {                                                                                                                                                \
-		printf("\033[91mОшибка в условии %s в строке %d в файле %s в функции %s \n\033[39m", #condition, __LINE__, __FILE__, __PRETTY_FUNCTION__ ); \
+		printf("\033[91mMitake in condition %s in string %d in file %s in function %s \n\033[39m", #condition, __LINE__, __FILE__, __PRETTY_FUNCTION__ ); \
         abort();                                                                                                                                     \
     }
 
@@ -47,7 +47,7 @@ int enter_size_t_num(size_t* koeff)
 {
 	while ( (scanf("%zu", koeff)) != 1 )
 	{
-		printf(RED("Введено нецелое число. А должно быть введено целое число. Попробуйте ввести его ещё раз. \n"));
+		printf(RED("A non-integer number is entered. It should be a whole number. Try entering it again. \n"));
 		clear_buf();
 	}
 	clear_buf();
@@ -60,7 +60,7 @@ int enter_double_num(double* koeff)
 {
 	while ( (scanf("%lf", koeff)) != 1 )
 	{
-		printf(RED("Введено не число. А должно быть введено число. Попробуйте ввести его ещё раз. \n"));
+		printf(RED("A non-number is entered. It should be a number. Try entering it again. \n"));
 		clear_buf();
 	}
 	clear_buf();
@@ -146,18 +146,10 @@ int count_bits(size_t pow_of_2, char* src, size_t cnt_in_wrd, size_t size)
         {
             counter++;
         }
-        
-        //printf("co = %zu\n", co);
 
         for(; ((double)counter < pow_of_2) && (counter + co < size); counter++)
         {
-            //printf("counter = %zu\n", counter);
-            //printf(GREEN("Now we are in bit:\n"));
-            //bit_dump(src, size, co + counter);
-
             rez = rez ^ src[co + counter];
-            
-            //printf(RED("rez = %zu\n"), rez);
         }
 
         co += 2 * (size_t)pow_of_2;
@@ -177,7 +169,6 @@ int full_word(char* dst, size_t big_wr_size, size_t h_m_cntrl_bits)
             if(is_equal_with_zero((double)cnt_in_wrd - (pow_of2 - 1.0)) && (cnt_of_cntrl_bits < h_m_cntrl_bits))  //Minus 1 because of counting since 0
             {                                                                              //strict inequality because we dont care about least non-controle leters
                 dst[cnt_in_wrd] = count_bits(pow_of2, dst, cnt_in_wrd, big_wr_size);
-                printf("$$$$$$$$$$$$$$dst[%zu] = %d\n", cnt_in_wrd, dst[cnt_in_wrd]);
                 cnt_of_cntrl_bits++;
             }
         }
@@ -253,7 +244,6 @@ int enter_mes(char* mes)
         }
         else
         {
-            //printf(RED("Entered nonbinar value! Wait mistake in result.\n"));
             break;
         }
 
@@ -277,21 +267,16 @@ int codim(char* msg, char* coded, size_t wr_size, size_t h_m_words, size_t h_m_c
 
         for(size_t cnt_in_wrd = 0, cnt_of_cntrl_bits = 0; cnt_in_wrd < big_wr_size; cnt_in_wrd++)
         {
-            //printf("cnt_in_wrd = %zu\n", cnt_in_wrd);
 
             if((is_equal_with_zero((double)cnt_in_wrd - (pow(2, cnt_of_cntrl_bits) - 1.0))) && (cnt_of_cntrl_bits < h_m_cntrl_bits))//if place is owened by controle bit 
                                                                                           //Minus 1 because of counting since 0
             {                                                                             //strict inequality because we care about least informative leters
                 coded[shift + cnt_in_wrd] = 0;
                 cnt_of_cntrl_bits++;
-                /*printf("wow!\n");
-                printf("cnt_in_wrd = %zu\n", cnt_in_wrd);
-                printf("wow!\n");*/
             }
             else
             {
                 coded[shift + cnt_in_wrd] = msg[co*wr_size + cnt_in_wrd - cnt_of_cntrl_bits];
-                //printf("coded[shift + cnt_in_wrd] = msg[co*wr_size + cnt_in_wrd - cnt_of_cntrl_bits]\n %d = %d\n", coded[shift + cnt_in_wrd], msg[co*wr_size + cnt_in_wrd - cnt_of_cntrl_bits]);
             }
         }
 
@@ -307,15 +292,13 @@ int kvazi_random(size_t bottom, size_t ceiling)
     return bottom + (rand() + time(0)) % (ceiling - bottom + 1);
 }
 
-int rand_miss(char* mes, size_t size)
+size_t rand_miss(char* mes, size_t size)
 {
-    char num = kvazi_random(0, size - 1);
+    size_t num = kvazi_random(0, size - 1);
     
     mes[num] = !mes[num];
 
-    printf("mes[%d] = %d\n", num + 1, mes[num]);
-
-    return 0;
+    return num;
 }
 
 int fullness_check(char* coded, size_t h_m_cntrl_bits, size_t wr_size)
@@ -332,10 +315,6 @@ int fullness_check(char* coded, size_t h_m_cntrl_bits, size_t wr_size)
         {
             if (count_bits(pow_of2, coded, cnt_in_wrd, big_wr_size) != coded[cnt_in_wrd])
             {
-                printf("count_bits = %d, coded[%zu] = %d\n", count_bits(pow_of2, coded, cnt_in_wrd, big_wr_size), cnt_in_wrd, coded[cnt_in_wrd]);
-                printf("syndrome = %d\n", syndrome);
-                printf("WE FOUND MISTAKE IN BIT #%zu\n", cnt_in_wrd + 1);
-                bit_dump(coded, big_wr_size, cnt_in_wrd);
                 if(syndrome == -1)
                 {
                     syndrome = cnt_in_wrd + 1;  //1 because we need to find a number of incorrect controle bit
@@ -344,7 +323,6 @@ int fullness_check(char* coded, size_t h_m_cntrl_bits, size_t wr_size)
                 {
                     syndrome += cnt_in_wrd + 1;  //1 because we need to add a number of incorrect controle bit
                 }
-                printf("syndrome = %d\n", syndrome);
             }
 
             cnt_of_cntrl_bits++;
@@ -366,7 +344,6 @@ int decodim(char* mes, char* coded, size_t wr_size, size_t h_m_words, size_t h_m
     for(size_t co = 0; co < h_m_words; co++)
     {
         shift = co*big_wr_size;
-        printf("We are in %zu word:\n", co + 1);
 
         for(size_t cnt_in_wrd = 0, cnt_of_cntrl_bits = 0; cnt_in_wrd < big_wr_size; cnt_in_wrd++)
         {
@@ -403,7 +380,6 @@ int main()
     size_t wr_size = 0;
     printf("Enter size of coding word:\n");
     enter_size_t_num(&wr_size);
-    printf("%zu size\n", wr_size);
 
     size_t h_m_cntrl_bits = cont_bits_counter(wr_size);
     size_t big_wr_size = wr_size + h_m_cntrl_bits;
@@ -424,7 +400,6 @@ int main()
     printf("There are %zu words\n", h_m_words);
 
     size_t len_of_coded = h_m_words * big_wr_size;
-    printf("There are %zu len_of_coded\n", len_of_coded);
 
     char* coded_msg = (char*)calloc((size_t)len_of_coded, sizeof(char));
     codim(mes, coded_msg, wr_size, h_m_words, h_m_cntrl_bits);
@@ -432,7 +407,9 @@ int main()
     printf(RED("\nEncoded message:\n\n"));
     show(coded_msg, len_of_coded, big_wr_size);
 
-    rand_miss(coded_msg, len_of_coded);
+    size_t mised = rand_miss(coded_msg, len_of_coded);
+    printf(RED("\nEncoded message with mistake in %zu letter:\n\n"), mised + 1);
+    show(coded_msg, len_of_coded, big_wr_size);
 
     char* new_mes = (char*)calloc(CAP, sizeof(char));
     decodim(new_mes, coded_msg, wr_size, h_m_words, h_m_cntrl_bits);
