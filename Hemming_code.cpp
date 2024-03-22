@@ -4,8 +4,6 @@
 #include <math.h>
 #include <time.h>
 
-
-typedef unsigned uns;
 size_t CAP = 16;
 const double EPSILON = 1.0e-09;
 
@@ -408,7 +406,7 @@ int main()
     show(coded_msg, len_of_coded, big_wr_size);
 
     size_t mised = rand_miss(coded_msg, len_of_coded);
-    printf(RED("\nEncoded message with mistake in %zu letter:\n\n"), mised + 1);
+    printf(RED("\nEncoded message with mistake in %zu letter:\n\n"), mised + 1); // because it's in array, where numbers starts by 0
     show(coded_msg, len_of_coded, big_wr_size);
 
     char* new_mes = (char*)calloc(CAP, sizeof(char));
