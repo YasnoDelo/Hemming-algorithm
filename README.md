@@ -12,7 +12,7 @@ Afterwards one quasi-random bit from the message will be inverted (thus carrying
 
 During decoding, the integrity of the coded lengthened words is checked and the single error is displayed, then the single error is corrected and the word where it occurred is output
 
-The original message (saved from input time) and the decoded message are then output for data collation
+The original message (saved from input time) and the decoded message are then output for data collision
 
 Example of output:
 
